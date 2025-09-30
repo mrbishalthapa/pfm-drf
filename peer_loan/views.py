@@ -89,6 +89,17 @@ class LoanTransactionRetrieveDelete(generics.RetrieveDestroyAPIView):
         return LoanTransaction.objects.filter(loan__user=user)
 
 
+class LoanRetrieveDelete(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve and delete a loan for the authenticated user.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = LoanSerializer
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        user = self.request.user
+        return Loan.objects.filter(user=user)
 
 
 class ContactLoanList(generics.ListAPIView):
