@@ -31,11 +31,8 @@ class LoanSerializer(serializers.ModelSerializer):
     """Serializer for Loan model"""
     amount = serializers.SerializerMethodField()
     interest = serializers.SerializerMethodField()
-    contact = serializers.SerializerMethodField()
 
-    def get_contact(self, obj):
-        from accounts.serializers import ContactSerializer
-        return ContactSerializer(obj.contact).data if obj.contact else None
+    
 
     class Meta:
         model = Loan
@@ -98,6 +95,13 @@ class LoanSerializer(serializers.ModelSerializer):
         ).aggregate(total=models.Sum('amount'))['total'] or Decimal('0.00')
 
         return accrued_interest - total_interest_paid
+
+
+    def to_representation(self, instance):
+        from accounts.serializers import ContactSerializer
+        representation = super().to_representation(instance)
+        representation['contact'] = ContactSerializer(instance.contact).data if instance.contact else None
+        return representation
   
 
 
