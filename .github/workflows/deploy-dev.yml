@@ -1,0 +1,26 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: visa django deployment - development
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  deploy-development:
+    runs-on: ubuntu-latest
+    name: Deploy to server
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Pull from GitHub
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.Password }}
+          script: cd /home/devloops/visa/drf && git checkout dev && git pull && cd .. && docker exec visa-drf-1 python manage.py migrate && docker exec visa-drf-1 python manage.py collectstatic --noinput && docker compose up -d --build drf
+
