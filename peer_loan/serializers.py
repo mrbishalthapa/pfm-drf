@@ -81,9 +81,8 @@ class LoanSerializer(serializers.ModelSerializer):
             last_date = tx_date
 
         # Accrue interest from last transaction date to today if principal remains
-        # if last_date is not None and principal_balance > 0:
-        if principal_balance > 0:
-            days = (today - last_date).days + 1
+        if last_date is not None and principal_balance > 0:
+            days = (today - last_date).days 
             if days > 0:
                 accrued = principal_balance * daily_rate * Decimal(days)
                 print(f"{days} * {principal_balance} * {daily_rate} = {accrued}")
