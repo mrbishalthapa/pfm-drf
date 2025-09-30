@@ -96,6 +96,6 @@ class Contact(models.Model):
     # Basic information
     full_name = models.CharField(max_length=100, verbose_name='Full Name')
     email = models.EmailField(null=True, blank=True, verbose_name='Email Address')
-    phone = models.CharField(max_length=20, blank=True, verbose_name='Phone Number')
+    phone = models.CharField(max_length=20, null = True, blank=True, verbose_name='Phone Number')
 
 
