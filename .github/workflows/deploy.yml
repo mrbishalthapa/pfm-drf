@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: visa drf - prod
+name: pfm drf - prod
 
 on:
   push:
@@ -22,4 +22,4 @@ jobs:
           host: ${{ secrets.PROD_HOST_IP }}
           username: ${{ secrets.PROD_HOST_USERNAME }}
           password: ${{ secrets.PROD_PASSWORD }}
-          script: cd /home/devloops/visa/drf && git pull && cd .. && docker exec visa-drf-1 python manage.py migrate && docker exec visa-drf-1 python manage.py collectstatic --noinput && docker compose up -d --build drf
+          script: cd /home/devloops/pfm/drf && git pull && cd .. && docker compose exec  drf python manage.py migrate && docker compose exec drf python manage.py collectstatic --noinput && docker compose up -d --build drf
