@@ -44,7 +44,7 @@ class LoanTransactionListCreateView(generics.ListCreateAPIView):
         List all transactions for the current user and the given loan_pk.
         """
         user = self.request.user
-        loan_id = self.request.query_params.get('loan_id')
+        loan_id = self.request.query_params.get('loan')
         if loan_id is not None:
             transactions = LoanTransaction.objects.filter( loan_id=loan_id, loan__user=user )
         else:
